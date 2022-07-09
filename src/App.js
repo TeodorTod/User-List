@@ -1,23 +1,22 @@
-import './App.css'
+import { useEffect, useState } from 'react';
+
+import * as userService from './services/userService';
+
 import Footer from './components/common/Footer';
 import Header from "./components/common/Header";
 import Search from './components/Search/Search';
 import UserList from './components/UserList/UserList';
+import './App.css'
 
-import { useEffect, useState } from 'react';
 
-const baseUrl = 'http://localhost:3005/api';
 
 function App() {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        fetch(`${baseUrl}/users`)
-            .then(res => res.json())
-            .then(result => {
-                setUsers(result.users)
-            })
-    }, [])
+        userService.getAll()
+            .then(users => setUsers(users))
+    }, []);
 
     return (
         <div>
@@ -26,7 +25,7 @@ function App() {
             <main className="main">
                 <section className="card users-container">
                     <Search />
-                    <UserList users={users}/>
+                    <UserList users={users} />
                 </section>
 
             </main>

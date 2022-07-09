@@ -1,12 +1,28 @@
 import UserItem from "./UserItem/UserItem";
+import UserDetails from "./UserDetails/UserDetails";
+import { useState } from "react";
+import * as userService from '../../services/userService';
 
 
 export default function UserList({
     users,
 }) {
+    const [selectedUser, setSelectedUser] = useState(null);
+
+    const detailsClickHandelr = (userId) => {
+        userService.getOne(userId)
+            .then(user => {
+                setSelectedUser(user)
+            })
+    }
+
+    const detailsCloseHandler = () => {
+        setSelectedUser(null);
+    }
+
     return (
         <div className="table-wrapper">
-
+            {selectedUser && <UserDetails user={selectedUser} onClose={detailsCloseHandler}/>}
 
             <table className="table">
                 <thead>
@@ -65,8 +81,8 @@ export default function UserList({
                 </thead>
                 <tbody>
                     {users.map(user =>
-                        <tr>
-                            <UserItem key={user._id} {...user} />
+                        <tr key={user._id}>
+                            <UserItem user={user} onDetailsClick={detailsClickHandelr} />
                         </tr>
                     )}
                 </tbody>

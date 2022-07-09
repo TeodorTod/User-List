@@ -1,22 +1,18 @@
 export default function UserList({
-  firstName,
-  lastName,
-  imageUrl,
-  email,
-  phoneNumber,
-  createdAt
+  user,
+  onDetailsClick,
 }) {
   return (
     <>
       <td>
-        <img src={imageUrl}
+        <img src={user.imageUrl}
           alt="Peter's profile" className="image" />
       </td>
-      <td>{firstName}</td>
-      <td>{lastName}</td>
-      <td>{email}</td>
-      <td>{phoneNumber}</td>
-      <td>{createdAt}</td>
+      <td>{user.firstName}</td>
+      <td>{user.lastName}</td>
+      <td>{user.email}</td>
+      <td>{user.phoneNumber}</td>
+      <td>{user.createdAt}</td>
 
       <td className="actions">
         <button className="btn edit-btn" title="Edit">
@@ -36,7 +32,7 @@ export default function UserList({
             </path>
           </svg>
         </button>
-        <button className="btn info-btn" title="Info">
+        <button className="btn info-btn" title="Info" onClick={() => onDetailsClick(user._id)}>
           <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="info"
             className="svg-inline--fa fa-info" role="img" xmlns="http://www.w3.org/2000/svg"
             viewBox="-150 0 512 612">
