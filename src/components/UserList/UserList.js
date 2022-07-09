@@ -1,28 +1,44 @@
+import { useState } from "react";
+
+import * as userService from '../../services/userService';
+
 import UserItem from "./UserItem/UserItem";
 import UserDetails from "./UserDetails/UserDetails";
-import { useState } from "react";
-import * as userService from '../../services/userService';
+import UserEdit from "./UserEdit/UserEdit";
+import { UserActions } from "./UserListsConstants";
 
 
 export default function UserList({
     users,
 }) {
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [userAction, setUserAction] = useState({ user: null, action: null });
 
-    const detailsClickHandelr = (userId) => {
+    const userActionClickHandler = (userId, actionType) => {
         userService.getOne(userId)
             .then(user => {
-                setSelectedUser(user)
+                setUserAction({
+                    user,
+                    action: actionType
+                })
             })
     }
 
-    const detailsCloseHandler = () => {
-        setSelectedUser(null);
+    const closeHandler = () => {
+        setUserAction({ user: null, action: null });
     }
 
     return (
         <div className="table-wrapper">
-            {selectedUser && <UserDetails user={selectedUser} onClose={detailsCloseHandler}/>}
+            {userAction.action == UserActions.Details &&
+                <UserDetails user={userAction.user} onClose={closeHandler} />}
+
+            {userAction.action == UserActions.Edit &&
+                <UserEdit user={userAction.user} onClose={closeHandler} />
+            }
+
+            {userAction.action == UserActions.Delete &&
+                <UserDelete user={userAction.user} onClose={closeHandler} />
+            }
 
             <table className="table">
                 <thead>
@@ -82,7 +98,9 @@ export default function UserList({
                 <tbody>
                     {users.map(user =>
                         <tr key={user._id}>
-                            <UserItem user={user} onDetailsClick={detailsClickHandelr} />
+                            <UserItem
+                                user={user}
+                                onActionClick={userActionClickHandler} />
                         </tr>
                     )}
                 </tbody>
