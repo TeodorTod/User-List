@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import * as userService from '../../services/userService';
 
@@ -10,9 +10,14 @@ import UserCreate from "./UserCreate/UserCreate";
 import { UserActions } from "./UserListsConstants";
 
 
-export default function UserList({
-    users,
-}) {
+export default function UserList() {
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        userService.getAll()
+            .then(users => setUsers(users))
+    }, []);
+    
     const [userAction, setUserAction] = useState({ user: null, action: null });
 
     const userActionClickHandler = (userId, actionType) => {
@@ -31,6 +36,30 @@ export default function UserList({
 
     const userCreateHandler = (e) => {
         e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const { firstName,
+            lastName,
+            email,
+            imageUrl,
+            phoneNumber,
+            ...address 
+        } = Object.fromEntries(formData);
+
+        const userData = {
+            firstName,
+            lastName,
+            email,
+            imageUrl,
+            phoneNumber,
+            address 
+        }
+
+        userService.create(userData)
+            .then(user => {
+                setUsers(state => [...state, user])
+                closeHandler();
+            });
     }
 
     return (
@@ -202,3 +231,9 @@ export default function UserList({
     </div>  */
     );
 }
+
+
+// country,
+// city,
+// street,
+// streetNumber

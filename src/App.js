@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 
 import * as userService from './services/userService';
 
@@ -11,12 +10,6 @@ import './App.css'
 
 
 function App() {
-    const [users, setUsers] = useState([]);
-
-    useEffect(() => {
-        userService.getAll()
-            .then(users => setUsers(users))
-    }, []);
 
     return (
         <div>
@@ -25,7 +18,7 @@ function App() {
             <main className="main">
                 <section className="card users-container">
                     <Search />
-                    <UserList users={users} />
+                    <UserList />
                 </section>
 
             </main>
