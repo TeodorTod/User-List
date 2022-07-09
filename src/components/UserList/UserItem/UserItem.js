@@ -1,16 +1,22 @@
-export default function UserList(props) {
-    return (          
-          
-    <tr>
+export default function UserList({
+  firstName,
+  lastName,
+  imageUrl,
+  email,
+  phoneNumber,
+  createdAt
+}) {
+  return (
+    <>
       <td>
-        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+        <img src={imageUrl}
           alt="Peter's profile" className="image" />
       </td>
-      <td>{props.user.firstName}</td>
-      <td>{props.user.lastName}</td>
-      <td>peter@abv.bg</td>
-      <td>0812345678</td>
-      <td>June 28, 2022</td>
+      <td>{firstName}</td>
+      <td>{lastName}</td>
+      <td>{email}</td>
+      <td>{phoneNumber}</td>
+      <td>{createdAt}</td>
 
       <td className="actions">
         <button className="btn edit-btn" title="Edit">
@@ -40,6 +46,6 @@ export default function UserList(props) {
           </svg>
         </button>
       </td>
-    </tr>
-    );
+    </>
+  );
 }

@@ -1,7 +1,9 @@
 import UserItem from "./UserItem/UserItem";
 
 
-export default function UserList(props) {
+export default function UserList({
+    users,
+}) {
     return (
         <div className="table-wrapper">
 
@@ -62,7 +64,11 @@ export default function UserList(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {props.users.map(user => <UserItem key={user._id} user={user}/>)}
+                    {users.map(user =>
+                        <tr>
+                            <UserItem key={user._id} {...user} />
+                        </tr>
+                    )}
                 </tbody>
             </table>
         </div>

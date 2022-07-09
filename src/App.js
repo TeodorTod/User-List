@@ -18,7 +18,6 @@ function App() {
                 setUsers(result.users)
             })
     }, [])
-    console.log(users);
 
     return (
         <div>
