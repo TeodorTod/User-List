@@ -17,7 +17,8 @@ export default function UserList() {
         userService.getAll()
             .then(users => setUsers(users))
     }, []);
-    
+
+
     const [userAction, setUserAction] = useState({ user: null, action: null });
 
     const userActionClickHandler = (userId, actionType) => {
@@ -30,37 +31,25 @@ export default function UserList() {
             })
     }
 
+    const createUserOpenHandler = (e) => {
+        setUserAction({
+            action: UserActions.Add
+        })
+    }
+
     const closeHandler = () => {
         setUserAction({ user: null, action: null });
     }
 
-    const userCreateHandler = (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.target);
-        const { firstName,
-            lastName,
-            email,
-            imageUrl,
-            phoneNumber,
-            ...address 
-        } = Object.fromEntries(formData);
-
-        const userData = {
-            firstName,
-            lastName,
-            email,
-            imageUrl,
-            phoneNumber,
-            address 
-        }
-
+    const userCreateHandler = (userData) => {
         userService.create(userData)
             .then(user => {
                 setUsers(state => [...state, user])
                 closeHandler();
             });
     }
+
+ 
 
     return (
         <>
@@ -158,7 +147,7 @@ export default function UserList() {
                     </tbody>
                 </table>
             </div>
-            <button className="btn-add btn" onClick={() => userActionClickHandler(null, UserActions.Add)}>Add new user</button>
+            <button className="btn-add btn" onClick={createUserOpenHandler}>Add new user</button>
         </>
 
         //   Overlap Components
